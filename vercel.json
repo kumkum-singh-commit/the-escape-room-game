@@ -1,0 +1,36 @@
+{
+    "version": 2,
+    "cleanUrls": true,
+    "builds": [
+      {
+        "src": "server.js",
+        "use": "@vercel/node"
+      },
+      {
+        "src": "style.css",
+        "use": "@vercel/static"
+      },
+      {
+        "src": "game.js",
+        "use": "@vercel/static"
+      },
+      {
+        "src": "levels.json",
+        "use": "@vercel/static"
+      },
+      {
+        "src": "index.html",
+        "use": "@vercel/static"
+      }
+    ],
+    "routes": [
+      {
+        "src": "/api/(.*)",
+        "dest": "server.js"
+      },
+      {
+        "src": "/(.*)",
+        "dest": "/$1"
+      }
+    ]
+  }
