@@ -8,12 +8,15 @@
   ],
   "routes": [
     {
-      "src": "/(style.css|game.js|levels.json|admin.html)",
-      "dest": "/$1"
+      "src": "/api/(.*)",
+      "dest": "server.js"
+    },
+    {
+      "handle": "filesystem"
     },
     {
       "src": "/(.*)",
-      "dest": "server.js"
+      "dest": "/index.html"
     }
   ]
 }
