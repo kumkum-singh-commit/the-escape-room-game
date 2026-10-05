@@ -1,0 +1,51 @@
+{
+    "quiz": [
+      { "q": "Which combination is the strongest sign of phishing?", "o": ["A company logo", "Urgency + lookalike domain + request for money or login", "Sent on a weekday", "A long email"], "a": 1 },
+      { "q": "What is vishing?", "o": ["Virus on a website", "Phishing via USB", "Phishing by voice call", "Visual snooping"], "a": 2 },
+      { "q": "You get repeated MFA prompts you did not trigger. Best action?", "o": ["Approve one so they stop", "Ignore them forever", "Read the code to IT on the phone", "Deny all and report to security"], "a": 3 },
+      { "q": "You find a USB drive in the parking lot. You should:", "o": ["Plug it into your work PC", "Hand it to security without plugging it in", "Plug it into your home PC", "Format it and use it"], "a": 1 },
+      { "q": "Gathering public information about a target before an attack is called:", "o": ["Patching", "Hashing", "Tailgating", "OSINT / reconnaissance"], "a": 3 }
+    ],
+    "clues": [
+      { "text": "CEO is Priya Mehta", "useful": true },
+      { "text": "Vendor: CloudPay Invoices", "useful": true },
+      { "text": "Cafeteria menu for Friday", "useful": false },
+      { "text": "IT helpdesk: helpdesk@novatech.com", "useful": true },
+      { "text": "Company picnic photo", "useful": false }
+    ],
+    "emails": [
+      { "from": "it-support@novatech.com", "subject": "Maintenance on Saturday 2 AM", "body": "Systems will be briefly offline. No action needed.", "phish": false, "tag": "", "why": "Internal domain, no links, no pressure, no request for information." },
+      { "from": "billing@cloudpay-invoices.co", "subject": "URGENT: invoice overdue", "body": "Pay within 1 hour or services stop: http://cloudpay-secure-login.xyz", "phish": true, "tag": "urgency + fake link", "why": "Unfamiliar domain, extreme urgency, link does not match the vendor." },
+      { "from": "hr@novatech.com", "subject": "Updated holiday calendar", "body": "The 2026 holiday list is on the intranet.", "phish": false, "tag": "", "why": "Legitimate sender, no link or request. Not every email is an attack." },
+      { "from": "priya.mehta@novatech-secure.com", "subject": "Quick favor", "body": "I am in a meeting. Buy 5 gift cards and send me the codes. Keep this confidential.", "phish": true, "tag": "lookalike domain / CEO fraud", "why": "Lookalike domain, secrecy, and a gift-card request. Classic CEO fraud." },
+      { "from": "no-reply@novatech-helpdesk.net", "subject": "Your mailbox is 99% full", "body": "Log in now to avoid losing mail: http://novatech-mail-verify.xyz/login", "phish": true, "tag": "fake login page", "why": "Not the real company domain, fear tactic, and a login link to an outside site." },
+      { "from": "events@novatech.com", "subject": "Lunch and learn on Thursday", "body": "Join us Thursday at 1 PM in Room 4. No RSVP needed.", "phish": false, "tag": "", "why": "Internal sender, no link, nothing sensitive requested." }
+    ],
+    "scenarios": [
+      { "act": 1, "title": "📞 Attacker: Phone Pretext", "text": "You call the receptionist pretending to be IT. You need her to help reset the CEO's account. What is your opening line?", "hint": "Use names from your recon, plus authority and urgency.", "tag": "", "ref": "MITRE ATT&CK T1598 Phishing for Information, T1656 Impersonation",
+        "opts": [
+          { "t": "Hi, I am Raj from IT. We detected a problem on Priya Mehta's account and I must fix it before her 10 AM board meeting.", "p": 20, "why": "Authority + urgency + a real name from recon makes this convincing." },
+          { "t": "Give me the CEO's password.", "p": 0, "why": "Too direct. Instantly suspicious." },
+          { "t": "Hello? I am calling about something.", "p": 5, "why": "Vague, with no pretext and no leverage." } ] },
+      { "act": 2, "title": "☎️ Defender: Vishing Call", "text": "A caller says: 'This is your bank's fraud team. Your account is being drained. Read us the OTP we just sent so we can cancel it.'", "hint": "A real bank never asks for your OTP.", "tag": "vishing", "ref": "MITRE ATT&CK T1566.004 Spearphishing Voice",
+        "opts": [
+          { "t": "Read out the OTP quickly.", "p": 0, "why": "The OTP lets the attacker authorize the transfer themselves." },
+          { "t": "Hang up and call the number printed on your bank card.", "p": 20, "why": "Correct. Always call back on a number you trust." },
+          { "t": "Ask them to tell you your balance first to prove who they are.", "p": 5, "why": "Attackers may already hold partial data, so this proves nothing." } ] },
+      { "act": 2, "title": "💾 Defender: USB Drop", "text": "In the parking lot you find a USB drive labelled 'Salary 2026 - Confidential'.", "hint": "Curiosity is exactly what the attacker is counting on.", "tag": "USB baiting", "ref": "MITRE ATT&CK T1091 Replication Through Removable Media",
+        "opts": [
+          { "t": "Plug it into your work PC to find the owner.", "p": 0, "why": "It could be a malicious device that runs code as soon as it is connected." },
+          { "t": "Plug it into your home PC instead.", "p": 0, "why": "Still dangerous, and now your personal data is at risk." },
+          { "t": "Hand it to the security team without plugging it in.", "p": 20, "why": "Correct. Never connect unknown devices." } ] },
+      { "act": 2, "title": "🚪 Defender: Tailgating", "text": "A person in a delivery uniform, hands full, asks you to hold the secure door open.", "hint": "Being polite and being secure are not the same thing here.", "tag": "tailgating", "ref": "Physical security, NIST SP 800-53 PE-3",
+        "opts": [
+          { "t": "Hold the door. They look legitimate.", "p": 0, "why": "Uniforms are easy to fake. They bypassed your badge control." },
+          { "t": "Politely ask them to badge in or go to reception.", "p": 20, "why": "Correct. Politely redirecting is the safe habit." },
+          { "t": "Let them in but keep an eye on them.", "p": 5, "why": "They are already inside and unverified." } ] },
+      { "act": 2, "title": "📱 Defender: MFA Fatigue", "text": "It is 2 AM. Your phone shows 6 login approval requests you did not make. Then 'IT Support' calls: 'Just approve one so the alerts stop.'", "hint": "Repeated prompts mean someone already has your password.", "tag": "MFA fatigue", "ref": "MITRE ATT&CK T1621 MFA Request Generation",
+        "opts": [
+          { "t": "Approve one to make it stop.", "p": 0, "why": "This gives the attacker full access." },
+          { "t": "Ignore it and go back to sleep.", "p": 5, "why": "Better, but security never learns your password is compromised." },
+          { "t": "Deny all and report to the security team.", "p": 20, "why": "Correct. Never approve, always report." } ] }
+    ]
+  }

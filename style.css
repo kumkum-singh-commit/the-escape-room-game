@@ -1,0 +1,61 @@
+:root{--ink:#2b1b4d;--cream:#fff8ec;--lav:#cdb8ff;--pink:#ff7ab6;--mint:#5ee6b0;--sun:#ffd84d;--sky:#6ec1ff}
+*{box-sizing:border-box}
+body{margin:0;min-height:100vh;padding:26px 16px 70px;color:var(--ink);font-family:'Nunito',Arial,sans-serif;font-weight:700;font-size:17px;line-height:1.55;
+  background:var(--lav) radial-gradient(circle,#ffffff66 2px,transparent 2.5px) 0 0/26px 26px}
+.logo{font-family:'Press Start 2P',monospace;font-size:14px;text-align:center;margin:0 auto 22px;letter-spacing:1px;text-shadow:3px 3px 0 #fff}
+.box{position:relative;z-index:1;max-width:760px;margin:auto;background:var(--cream);border:4px solid var(--ink);border-radius:28px;box-shadow:10px 10px 0 var(--ink);padding:26px}
+
+/* HUD */
+.chip{display:inline-block;background:#fff;border:3px solid var(--ink);border-radius:999px;padding:2px 12px;font-size:14px;margin:0 8px 6px 0}
+.chip.pink{background:var(--pink)}.chip.mint{background:var(--mint)}.chip.sun{background:var(--sun)}
+.xp{height:18px;border:3px solid var(--ink);border-radius:999px;background:#fff;overflow:hidden;margin:8px 0 10px}
+.xp i{display:block;height:100%;background:repeating-linear-gradient(45deg,var(--pink) 0 10px,#ff9cc9 10px 20px);transition:width .5s}
+.roomname{font-family:'Press Start 2P',monospace;font-size:11px;margin-bottom:20px}
+
+/* Type */
+h1,h2,h3{font-family:'Press Start 2P',monospace;line-height:1.6;margin:0 0 16px}
+h1{font-size:22px}h2{font-size:16px}h3{font-size:12px;background:var(--sun);display:inline-block;border:3px solid var(--ink);border-radius:10px;padding:4px 10px}
+p{margin:0 0 14px}ul{padding-left:22px}li{margin:8px 0}
+label{display:block;margin-top:6px}
+
+/* Buttons */
+button{font-family:inherit;font-weight:800;font-size:16px;color:var(--ink);background:var(--sun);border:3px solid var(--ink);border-radius:14px;padding:10px 18px;margin:6px 8px 6px 0;cursor:pointer;box-shadow:4px 4px 0 var(--ink);transition:transform .08s,box-shadow .08s}
+button:hover{transform:translate(-2px,-2px);box-shadow:6px 6px 0 var(--ink)}
+button:active{transform:translate(4px,4px);box-shadow:0 0 0 var(--ink)}
+button:disabled{background:#e4dff0;color:#8a80a8;border-color:#8a80a8;box-shadow:none;cursor:not-allowed;transform:none}
+button.clue{background:#fff}
+button.clue.on{background:var(--sky)}
+#opts button,button.opt{display:block;width:100%;text-align:left;background:#fff;margin-right:0}
+#opts button:hover:not(:disabled),button.opt:hover:not(:disabled){background:#f1e9ff}
+#fb button{background:var(--mint)}
+#hb{background:var(--sun);font-size:14px}
+
+/* Forms */
+select{width:100%;padding:11px;margin:6px 0 16px;font-family:inherit;font-weight:700;font-size:16px;color:var(--ink);background:#fff;border:3px solid var(--ink);border-radius:12px;box-shadow:4px 4px 0 var(--ink)}
+
+/* Emails as pinned notes */
+.mail{position:relative;background:#fff;border:3px solid var(--ink);border-radius:18px;padding:16px;margin:24px 0;box-shadow:5px 5px 0 var(--ink)}
+.mail:nth-child(odd){transform:rotate(-.6deg)}
+.mail:nth-child(even){transform:rotate(.6deg)}
+.mail::before{content:"📌";position:absolute;top:-16px;left:18px;font-size:22px}
+.mail.good{background:#dcfff0}
+.mail.bad{background:#ffe0ec}
+.mail button:first-of-type{background:var(--pink)}
+.mail button:nth-of-type(2){background:var(--mint)}
+.mail button:disabled{background:#e4dff0}
+
+/* Messages */
+.why{background:#fff3b8;border:2px dashed var(--ink);border-radius:12px;padding:8px 12px;margin-top:10px}
+.why:empty{display:none}
+span.why{display:inline-block;margin:4px 0 0}
+#fb p{background:#fff;border:3px solid var(--ink);border-radius:18px;padding:12px 16px;margin-top:20px;position:relative}
+#fb p::before{content:"";position:absolute;top:-12px;left:26px;width:18px;height:18px;background:#fff;border-left:3px solid var(--ink);border-top:3px solid var(--ink);transform:rotate(45deg)}
+
+/* Floating stickers */
+.sticker{position:fixed;font-size:42px;pointer-events:none;z-index:0;filter:drop-shadow(3px 3px 0 var(--ink))}
+.s1{top:8%;left:5%;transform:rotate(-14deg)}.s2{top:20%;right:5%;transform:rotate(12deg)}
+.s3{bottom:12%;left:6%;transform:rotate(10deg)}.s4{bottom:8%;right:7%;transform:rotate(-10deg)}
+
+:focus-visible{outline:4px solid var(--sky);outline-offset:3px}
+@media(max-width:700px){.sticker{display:none}.box{padding:18px;box-shadow:6px 6px 0 var(--ink)}h1{font-size:17px}h2{font-size:13px}.logo{font-size:11px}}
+@media(prefers-reduced-motion:reduce){*{transition:none!important}.mail{transform:none!important}}

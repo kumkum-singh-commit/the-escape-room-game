@@ -1,0 +1,17 @@
+<!DOCTYPE html>
+<html><head><meta charset="UTF-8"><title>Admin Dashboard</title>
+<link rel="stylesheet" href="style.css"></head>
+<body><div class="box"><h1>📊 Admin Dashboard</h1><div id="out">Loading...</div></div>
+<script>
+fetch("/api/stats").then(r => r.json()).then(s => {
+  const o = document.getElementById("out"); o.innerHTML = "";
+  const add = (t, tag = "p") => { const e = document.createElement(tag); e.textContent = t; o.appendChild(e); };
+  add(`Players: ${s.players}`);
+  add(`Average score: ${s.avgScore}`);
+  add(`Average quiz: ${s.avgPre}/5 before → ${s.avgPost}/5 after`);
+  add("Most missed red flags", "h2");
+  s.missed.forEach(m => add(`${m.tag}: ${m.count} player(s) (${Math.round(m.count / s.players * 100)}%)`));
+  add("Recent players", "h2");
+  s.recent.forEach(r => add(`${r.at.slice(0, 16).replace("T", " ")} | score ${r.score} | quiz ${r.pre}→${r.post} | ${r.seconds}s`));
+});
+</script></body></html>
