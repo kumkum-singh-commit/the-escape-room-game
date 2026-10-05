@@ -10,7 +10,12 @@ app.use((req, res, next) => {                         // basic security headers
   res.set("X-Frame-Options", "DENY");
   next();
 });
-app.use(express.static(__dirname, { dotfiles: "deny" }));
+
+app.use(express.static(__dirname, { dotfiles: "deny", index: "index.html" }));
+
+app.get("/", (req, res) => {
+  res.sendFile(__dirname + "/index.html");
+});
 
 function limit(req, res, next) {                      // rate limiting: 30 requests/min per IP
   const now = Date.now(), ip = req.ip;
@@ -28,7 +33,13 @@ app.post("/api/result", limit, (req, res) => {        // input validation, no pe
   const all = load();
   all.push({ score: num(b.score, 300), pre: num(b.pre, 5), post: num(b.post, 5),
     hints: num(b.hints, 50), seconds: num(b.seconds, 86400), missed, at: new Date().toISOString() });
-  fs.writeFileSync(FILE, JSON.stringify(all));
+  
+  try {
+    fs.writeFileSync(FILE, JSON.stringify(all));
+  } catch (e) {
+    console.log("File write skipped in read-only environment");
+  }
+  
   res.json({ ok: true });
 });
 
